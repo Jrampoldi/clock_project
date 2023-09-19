@@ -1,0 +1,3 @@
+../Src/clock_handler.c:13:5:calculate_seconds_rem	1
+../Src/clock_handler.c:19:5:calculate_min	1
+../Src/clock_handler.c:25:5:calculate_hour	1

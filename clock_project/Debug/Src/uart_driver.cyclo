@@ -1,0 +1,4 @@
+../Src/uart_driver.c:31:6:uart1_tx_init	1
+../Src/uart_driver.c:47:5:__io_putchar	1
+../Src/uart_driver.c:54:6:uart1_set_brr	1
+../Src/uart_driver.c:60:6:uart1_write	2

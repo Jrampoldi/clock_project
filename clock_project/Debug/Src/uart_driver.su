@@ -1,0 +1,4 @@
+../Src/uart_driver.c:31:6:uart1_tx_init	8	static
+../Src/uart_driver.c:47:5:__io_putchar	16	static
+../Src/uart_driver.c:54:6:uart1_set_brr	24	static
+../Src/uart_driver.c:60:6:uart1_write	16	static
