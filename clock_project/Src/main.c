@@ -9,6 +9,8 @@
 #include "uart_driver.h"
 #include "timer_driver.h"
 #include "clock_handler.h"
+#include "shift_reg_handler.h"
+
 
 int seconds = 0;
 
@@ -17,6 +19,7 @@ int main()
     /*Initialize Modules*/
     uart1_tx_init();
     tim2_1hz_init();
+    shift_reg_init();
 
     while (1)
     {
@@ -25,8 +28,6 @@ int main()
         TIM2->SR &= ~SR_UIF;
         
         seconds++;
-        printf("%d\n\r", seconds);
+        display_handler(calculate_min(seconds), calculate_seconds_rem(seconds));
     }
 }
-
-
