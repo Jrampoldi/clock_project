@@ -27,10 +27,6 @@
 #define SR_CLR              (1U<<12)
 
 
-// Probably should try to use timer interrupts to 
-// program all of these. 
-
-
 void shift_reg_init()
 {
     // initialize GPIO pins
@@ -46,12 +42,9 @@ void display_handler(int m, int s)
     int bit_array[8] = {0, 0, 0, 0, 0, 0, 0, 0};
     
     // Program Digit1
-    if (m > 9)
-    {
-        GPIOA->BSRR = DIGIT_ONE;
-        set_bit_array(bit_array, ((int)(m / 10)));
-        send_8_bits(bit_array);
-    }
+    GPIOA->BSRR = DIGIT_ONE;
+    set_bit_array(bit_array, ((int)(m / 10)));
+    send_8_bits(bit_array);
 
     // Program Digit2
     GPIOA->BSRR = DIGIT_TWO;
@@ -59,12 +52,9 @@ void display_handler(int m, int s)
     send_8_bits(bit_array);
 
     // Program Digit3
-    if(s > 9)
-    {
-        GPIOA->BSRR = DIGIT_THREE;
-        set_bit_array(bit_array, ((int)(s / 10)));
-        send_8_bits(bit_array);
-    }
+    GPIOA->BSRR = DIGIT_THREE;
+    set_bit_array(bit_array, ((int)(s / 10)));
+    send_8_bits(bit_array);
 
     // Program Digit4
     GPIOA->BSRR = DIGIT_FOUR;
@@ -127,7 +117,7 @@ void set_bit_array(int bit_array[],int time)
 void send_8_bits(int bit_array[])
 {
     for(int i = 0; i < 8; i++)
-    {
+    { 
         //loop through and set pin data
         if (bit_array[i] == 1)
         {

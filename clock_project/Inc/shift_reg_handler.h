@@ -10,6 +10,7 @@
 #ifndef SHIFT_REG_HANDLER_H_
 #define SHIFT_REG_HANDLER_H_
 
+#include "uart_driver.h"
 #include "stm32f411xe.h"
 #include <stdlib.h>
 
