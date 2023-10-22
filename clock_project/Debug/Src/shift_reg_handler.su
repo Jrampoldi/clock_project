@@ -1,7 +1,6 @@
-../Src/shift_reg_handler.c:33:6:print_bits	24	static
-../Src/shift_reg_handler.c:42:6:shift_reg_init	4	static
-../Src/shift_reg_handler.c:52:6:display_handler	48	static
-../Src/shift_reg_handler.c:82:6:set_bit_array	24	static
-../Src/shift_reg_handler.c:133:6:send_8_bits	24	static
-../Src/shift_reg_handler.c:153:6:pulse_clock	4	static
-../Src/shift_reg_handler.c:160:6:pulse_latch	4	static
+../Src/shift_reg_handler.c:30:6:shift_reg_init	4	static
+../Src/shift_reg_handler.c:40:6:display_handler	48	static
+../Src/shift_reg_handler.c:60:6:set_bit_array	24	static
+../Src/shift_reg_handler.c:111:6:send_8_bits	32	static
+../Src/shift_reg_handler.c:130:6:pulse_clock	16	static
+../Src/shift_reg_handler.c:145:6:pulse_latch	16	static

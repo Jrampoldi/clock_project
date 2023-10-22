@@ -10,67 +10,62 @@
 
 #define GPIOAEN             (1U<<0)
 
-#define DIGIT_ONE           (1U<<20 | 1U<<19 | 1U<<18 | 1U<<1)
-#define DIGIT_TWO           (1U<<20 | 1U<<19 | 1U<<2 | 1U<<17)
-#define DIGIT_THREE         (1U<<20 | 1U<<3 | 1U<<18 | 1U<<17)
-#define DIGIT_FOUR          (1U<<4 | 1U<<19 | 1U<<18 | 1U<<17)
+/* BSRR PIN SET VALUES */
+#define ONE_DATA_ON         (1U<<0)
+#define ONE_CLOCK_ON        (1U<<1)
+#define ONE_LATCH_ON        (1U<<2)
+#define TWO_DATA_ON			(1U<<3)
+#define TWO_CLOCK_ON		(1U<<4)
+#define TWO_LATCH_ON		(1U<<5)
 
-#define SR_CLOCK_ON         (1U<<11)
-#define SR_CLOCK_OFF        (1U<<27)
-#define LATCH_ON            (1U<<7)
-#define LATCH_OFF           (1U<<23)
-
-#define DATA_PIN_ON         (1U<<5)
-#define DATA_PIN_OFF        (1U<<21)
-
-#define ENABLE_PIN          (1U<<23)
-#define SR_CLR              (1U<<12)
+/* BSRR PIN RESET VALUES */
+#define ONE_DATA_OFF        (1U<<16)
+#define ONE_CLOCK_OFF       (1U<<17)
+#define ONE_LATCH_OFF       (1U<<18)
+#define TWO_DATA_OFF		(1U<<19)
+#define TWO_CLOCK_OFF		(1U<<20)
+#define TWO_LATCH_OFF		(1U<<21)
 
 
-void shift_reg_init()
-{
+void shift_reg_init() {
     // initialize GPIO pins
     RCC->AHB1ENR |= GPIOAEN;
-    GPIOA->MODER |= (1U<<24 | 1U<<22 | 1U<<14 | 
-                    1U<<12 | 1U<<10 | 1U<<8 | 
-                    1U<<6 | 1U<<4 | 1U<<2); 
-    GPIOA->BSRR = (ENABLE_PIN | SR_CLR); 
-    //sn74hc595n
+
+    /* Enable output for PA0, PA1, PA2, PA3, PA4, PA5 */
+    GPIOA->MODER |= (1U<<10 | 1U<<8 | 1U<<6 |
+    					1U<<4 | 1U<<2 | 1U<<0);
+
+
 }
-void display_handler(int m, int s)
-{
-    int bit_array[8] = {0, 0, 0, 0, 0, 0, 0, 0};
-    
-    // Program Digit1
-    GPIOA->BSRR = DIGIT_ONE;
-    set_bit_array(bit_array, ((int)(m / 10)));
-    send_8_bits(bit_array);
+void display_handler(int s){
 
-    // Program Digit2
-    GPIOA->BSRR = DIGIT_TWO;
-    set_bit_array(bit_array, (m % 10));
-    send_8_bits(bit_array);
 
-    // Program Digit3
-    GPIOA->BSRR = DIGIT_THREE;
-    set_bit_array(bit_array, ((int)(s / 10)));
-    send_8_bits(bit_array);
+	int bit_array[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 
-    // Program Digit4
-    GPIOA->BSRR = DIGIT_FOUR;
-    set_bit_array(bit_array, (s % 10));
-    send_8_bits(bit_array);
+
+	/* CHECK FOR TENS PLACE DIGIT */
+	if (s > 10) {
+		set_bit_array(bit_array, ((int)(s / 10)));
+		printf("Calc Sec: %d", ((int)(s / 10)));
+	} else {
+		set_bit_array(bit_array, 0);
+	}
+	send_8_bits(bit_array, ONE_DATA_ON, ONE_DATA_OFF, 1);
+
+	/* SET FOR ONES PLACE DIGIT */
+	set_bit_array(bit_array, (s % 10));
+	send_8_bits(bit_array, TWO_DATA_ON, TWO_DATA_OFF, 0);
 
 }
 
-void set_bit_array(int bit_array[],int time)
-{
+void set_bit_array(int bit_array[], int time) {
     // sets bit_array for digit in switch statement, according
     // to 7 segment display segments.
-    int* p = (int*)malloc(8 * sizeof(int));
+
+	int* p = (int*)malloc(8 * sizeof(int));
     p = bit_array;
-    switch(time)
-    {
+
+    switch(time) {
         case 0:
             *p++ = 1; *p++ = 1; *p++ = 1; *p++ = 1;
             *p++ = 1; *p++ = 1; *p++ = 0; *p = 0;
@@ -114,44 +109,51 @@ void set_bit_array(int bit_array[],int time)
     }
     free(p); //deallocate pointer
 }
-void send_8_bits(int bit_array[])
-{
-    for(int i = 0; i < 8; i++)
-    { 
+void send_8_bits(int bit_array[], uint32_t DATA_PIN_ON, uint32_t DATA_PIN_OFF, int digit) {
+    for(int i = 7; i >= 0; i--) {
         //loop through and set pin data
-        if (bit_array[i] == 1)
-        {
-            GPIOA->BSRR = DATA_PIN_ON;
-        }
-        else
-        {
-            GPIOA->BSRR = DATA_PIN_OFF;
+        if (bit_array[i] == 1) {
+
+        	GPIOA->BSRR = DATA_PIN_ON;
+
+        } else {
+
+        	GPIOA->BSRR = DATA_PIN_OFF;
+
         }
         //pulse clock
-        pulse_clock();
+        pulse_clock(digit);
     }
     //pulse latch to catch
-    pulse_latch();
+    pulse_latch(digit);
 }
 
-void pulse_clock()
-{
+void pulse_clock(int digit) {
     // clock on / clock off
-    GPIOA->BSRR = SR_CLOCK_ON;
-    GPIOA->BSRR = SR_CLOCK_OFF;
+	if (digit == 1) {
+
+		GPIOA->BSRR = ONE_CLOCK_ON;
+		GPIOA->BSRR = ONE_CLOCK_OFF;
+
+	} else {
+
+		GPIOA->BSRR = TWO_CLOCK_ON;
+		GPIOA->BSRR = TWO_CLOCK_OFF;
+
+	}
 }
 
-void pulse_latch()
-{
+void pulse_latch(int digit) {
     // latch on / latch off
-    GPIOA->BSRR = LATCH_ON;
-    GPIOA->BSRR = LATCH_OFF;
+	if (digit == 1) {
+
+		GPIOA->BSRR = ONE_LATCH_ON;
+		GPIOA->BSRR = ONE_LATCH_OFF;
+
+	} else {
+
+		GPIOA->BSRR = TWO_LATCH_ON;
+		GPIOA->BSRR = TWO_LATCH_OFF;
+
+	}
 }
-
-
-
-
-
-
-
-

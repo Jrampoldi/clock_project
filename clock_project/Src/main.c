@@ -28,6 +28,6 @@ int main()
         TIM2->SR &= ~SR_UIF;
         
         seconds++;
-        display_handler(calculate_min(seconds), calculate_seconds_rem(seconds));
+        display_handler(seconds);
     }
 }
