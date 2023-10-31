@@ -1,3 +1,4 @@
 ../Src/clock_handler.c:13:5:calculate_seconds_rem	16	static
-../Src/clock_handler.c:19:5:calculate_min	16	static
-../Src/clock_handler.c:25:5:calculate_hour	16	static
+../Src/clock_handler.c:18:5:calculate_min	16	static
+../Src/clock_handler.c:23:5:calculate_hour	16	static
+../Src/clock_handler.c:27:6:set_time	24	static

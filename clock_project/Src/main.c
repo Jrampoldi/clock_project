@@ -12,22 +12,23 @@
 #include "shift_reg_handler.h"
 
 
-int seconds = 0;
+volatile int seconds = 3600;
 
-int main()
+int main(void)
 {
     /*Initialize Modules*/
     uart1_tx_init();
     tim2_1hz_init();
     shift_reg_init();
 
-    while (1)
+    while(1)
     {
         /*Forever Loop*/
-        while(!(TIM2->SR & SR_UIF)){}
+        while(!(TIM2->SR & SR_UIF)) {
+        	display_handler(calculate_hour(seconds), calculate_min(seconds), calculate_seconds_rem(seconds));
+        }
         TIM2->SR &= ~SR_UIF;
-        
+
         seconds++;
-        display_handler(seconds);
     }
 }

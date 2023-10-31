@@ -1,6 +1,10 @@
-../Src/shift_reg_handler.c:30:6:shift_reg_init	1
-../Src/shift_reg_handler.c:40:6:display_handler	2
-../Src/shift_reg_handler.c:60:6:set_bit_array	11
-../Src/shift_reg_handler.c:111:6:send_8_bits	3
-../Src/shift_reg_handler.c:130:6:pulse_clock	2
-../Src/shift_reg_handler.c:145:6:pulse_latch	2
+../Src/shift_reg_handler.c:45:6:shift_reg_init	1
+../Src/shift_reg_handler.c:54:6:display_handler	1
+../Src/shift_reg_handler.c:60:6:display_hours	2
+../Src/shift_reg_handler.c:85:6:display_minutes	2
+../Src/shift_reg_handler.c:107:6:display_seconds	2
+../Src/shift_reg_handler.c:126:6:set_time_array	11
+../Src/shift_reg_handler.c:174:6:set_digit_array	6
+../Src/shift_reg_handler.c:194:6:send_bits	3
+../Src/shift_reg_handler.c:213:6:pulse_clock	3
+../Src/shift_reg_handler.c:230:6:pulse_latch	3

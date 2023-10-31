@@ -14,5 +14,6 @@
 int calculate_min(int s);
 int calculate_hour(int s);
 int calculate_seconds_rem(int s);
+void set_time(int h, int m, int s);
 
 #endif

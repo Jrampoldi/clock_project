@@ -15,11 +15,15 @@
 #include <stdlib.h>
 
 
-//provide logic here!
+
 void shift_reg_init();
-void display_handler(int s);
-void set_bit_array(int bit_array[], int time);
-void send_8_bits(int bit_array[], uint32_t DATA_PIN_ON, uint32_t DATA_PIN_OFF, int digit);
+void display_handler(int h, int m, int s);
+void display_hours(int h);
+void display_minutes(int m);
+void display_seconds(int s);
+void set_time_array(int* p, int time);
+void set_digit_array(int* p, int digit);
+void send_bits(int bit_array[], uint32_t DATA_PIN_ON, uint32_t DATA_PIN_OFF, int digit, int length);
 void pulse_clock(int digit);
 void pulse_latch(int digit);
 
