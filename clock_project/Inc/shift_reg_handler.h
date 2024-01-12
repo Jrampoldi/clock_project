@@ -24,10 +24,20 @@ void display_handler(int h, int m, int s);
 // Description: Calls appropriate functions
 // to send data to shift_reg
 void display_hours(int h);
+// Description: Configures & sends data 
+// representing the hour
 void display_minutes(int m);
+// Description: Configures & sends data 
+// representing the minute
 void display_seconds(int s);
+// Description: Configures & sends data
+// representing the second
 void set_time_array(int* p, int time);
+// Description: configures array to 
+// represent the time argument
 void set_digit_array(int* p, int digit);
+// Description: configures array to 
+// represent the digit argument
 void send_bits(int bit_array[], uint32_t DATA_PIN_ON, uint32_t DATA_PIN_OFF, int digit, int length);
 // Description: Loops over bit_array, sending each bit
 // with a clock pulse. After bit_array loops, with a 
