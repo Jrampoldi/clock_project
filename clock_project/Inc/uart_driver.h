@@ -13,8 +13,9 @@
 #include "stdint.h"
 #include "stdio.h"
 
-
-// header files go here
+/* function declarations */
 void uart1_tx_init();
+// Description: configures uart to 
+// transmit data at a 115200 baudrate
 
 #endif
